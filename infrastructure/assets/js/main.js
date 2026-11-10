@@ -9,6 +9,9 @@ const SessaoUsuario = {
     definirPerfil(perfil) {
         localStorage.setItem(this.CHAVE_STORAGE, perfil);
         this.sincronizarUI();
+        if (window.roteador) {
+            window.roteador.navegarParaRotaAtual();
+        }
     },
 
     obterIniciais(nome) {
