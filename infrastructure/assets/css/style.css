@@ -1,5 +1,3 @@
-
-
 :root {
     --cor-primaria: #203B5B;
     --cor-secundaria: #C5A46D;
@@ -10,12 +8,10 @@
     --cor-texto: #344054;
     --cor-texto-secundario: #667085;
 
-    --cor-borda: #E8EDF2;
+    --cor-borda: #C2C7CD;
 
-    --fonte-principal: Arial, sans-serif;
+    --fonte-principal: 'Inter', Arial, sans-serif;
 }
-
-
 
 body {
     background-color: var(--cor-fundo);
