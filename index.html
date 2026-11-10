@@ -32,9 +32,9 @@
             <aside class="sidebar">
 
                 <div class="sidebar-top">
-                    <a href="#" class="sidebar-brand">
+                    <a href="#painel-quartos" class="sidebar-brand">
                         <div class="sidebar-brand-icon">
-                            <!-- Ícone da marca / Hotelaria (MUDAR DEPOIS)-->
+                            <!-- Ícone da marca / Hotelaria -->
                             <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.5 12V1H7.5V12M11.5 12V1H17.5V12M4.5 4H4.51M4.5 7H4.51M4.5 10H4.51M14.5 4H14.51M14.5 7H14.51M14.5 10H14.51" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
                             </svg>
@@ -45,7 +45,7 @@
                     <nav class="w-100">
                         <ul class="sidebar-nav">
                             <li class="sidebar-nav-item">
-                                <a href="#" class="sidebar-nav-link active">
+                                <a href="#painel-quartos" class="sidebar-nav-link active" data-route="painel-quartos">
                                     <span class="sidebar-nav-icon">
                                         <img src="infrastructure/assets/images/icons/dashboard-icon.svg" width="15" height="15" alt="" aria-hidden="true">
                                     </span>
@@ -53,7 +53,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-nav-item">
-                                <a href="#" class="sidebar-nav-link">
+                                <a href="#check-in" class="sidebar-nav-link" data-route="check-in">
                                     <span class="sidebar-nav-icon">
                                         <img src="infrastructure/assets/images/icons/check-in-icon.svg" width="17" height="14" alt="" aria-hidden="true">
                                     </span>
@@ -61,7 +61,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-nav-item">
-                                <a href="#" class="sidebar-nav-link">
+                                <a href="#hospedes" class="sidebar-nav-link" data-route="hospedes">
                                     <span class="sidebar-nav-icon">
                                         <img src="infrastructure/assets/images/icons/hospedes-icon.svg" width="19" height="14" alt="" aria-hidden="true">
                                     </span>
@@ -69,7 +69,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-nav-item">
-                                <a href="#" class="sidebar-nav-link">
+                                <a href="#pedidos" class="sidebar-nav-link" data-route="pedidos">
                                     <span class="sidebar-nav-icon">
                                         <img src="infrastructure/assets/images/icons/pedidos-icon.svg" width="17" height="13" alt="" aria-hidden="true">
                                     </span>
@@ -92,44 +92,19 @@
 
             </aside>
 
-            <main class="conteudo">
+            <main class="conteudo" id="app-conteudo">
 
                 <header class="cabecalho">
-                    <h2>Bem-vindo ao Sistema de Hotelaria</h2>
-                    <p class="mb-0">
-                        Gerencie as informações do seu hotel.
+                    <h2>Painel de Quartos</h2>
+                    <p class="mb-0 text-muted">
+                        Visualização geral e controle de ocupação dos quartos.
                     </p>
                 </header>
 
-                <section class="area-conteudo">
-
-                    <h3 class="mb-4">Painel principal</h3>
-
-                    <div class="row g-3">
-
-                        <div class="col-12 col-sm-6 col-xl-4">
-                            <div class="card p-3">
-                                <h5>Hóspedes</h5>
-                                <p class="mb-0">Gerenciamento de hóspedes.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-6 col-xl-4">
-                            <div class="card p-3">
-                                <h5>Quartos</h5>
-                                <p class="mb-0">Controle de quartos.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-6 col-xl-4">
-                            <div class="card p-3">
-                                <h5>Reservas</h5>
-                                <p class="mb-0">Controle de reservas.</p>
-                            </div>
-                        </div>
-
+                <section class="area-conteudo" id="painel-quartos-view">
+                    <div class="p-4 text-center text-muted">
+                        <p class="mb-0">A visualização completa dos quartos e contadores será carregada aqui na próxima etapa.</p>
                     </div>
-
                 </section>
 
             </main>
@@ -141,6 +116,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+
+    <!-- Roteador SPA -->
+    <script src="infrastructure/assets/js/roteador.js"></script>
 
     <!-- JavaScript próprio -->
     <script src="infrastructure/assets/js/main.js"></script>
