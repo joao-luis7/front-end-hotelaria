@@ -1,0 +1,41 @@
+.layout {
+    min-height: 100vh;
+}
+
+.sidebar {
+    background-color: var(--cor-primaria);
+    color: var(--cor-branco);
+    padding: 25px 20px;
+    min-height: 100vh;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+}
+
+.sidebar a:hover {
+    color: var(--cor-secundaria) !important;
+}
+
+.conteudo {
+    padding: 30px;
+    min-width: 0;
+}
+
+.cabecalho,
+.area-conteudo {
+    background-color: var(--cor-branco);
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        min-height: auto;
+    }
+
+    .conteudo {
+        padding: 15px;
+    }
+}
