@@ -9,6 +9,7 @@ const rotas = {
         desenvolvido: true,
         caminhoArquivo: 'quartos/pages/painel-quartos.html',
         perfisPermitidos: ['Recepcionista', 'Dono'],
+        aoRenderizar: () => window.painelQuartos && window.painelQuartos.renderizar(),
         templateFallback: `
             <header class="cabecalho">
                 <h2>Painel de Quartos</h2>
@@ -18,7 +19,7 @@ const rotas = {
             </header>
             <section class="area-conteudo" id="painel-quartos-view">
                 <div class="p-4 text-center text-muted">
-                    <p class="mb-0">A visualização completa dos quartos e contadores será carregada aqui na próxima etapa.</p>
+                    <p class="mb-0">Carregando quartos...</p>
                 </div>
             </section>
         `
@@ -94,6 +95,7 @@ class Roteador {
                 if (resposta.ok) {
                     const html = await resposta.text();
                     this.container.innerHTML = html;
+                    this.aposRenderizar(config);
                     return;
                 }
             }
@@ -103,6 +105,14 @@ class Roteador {
         }
 
         this.container.innerHTML = config.templateFallback;
+        this.aposRenderizar(config);
+    }
+
+    // Scripts dentro do HTML carregado não executam, então a rota pode ter uma função de montagem
+    aposRenderizar(config) {
+        if (config.aoRenderizar) {
+            config.aoRenderizar();
+        }
     }
 
     renderizarModuloEmDesenvolvimento(tituloModulo) {

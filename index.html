@@ -21,6 +21,7 @@
     <!-- Estilos e Layout do Sistema -->
     <link rel="stylesheet" href="infrastructure/assets/css/style.css">
     <link rel="stylesheet" href="infrastructure/assets/css/layout.css">
+    <link rel="stylesheet" href="quartos/assets/css/painel-quartos.css">
 
 </head>
 
@@ -35,9 +36,9 @@
                     <a href="#painel-quartos" class="sidebar-brand">
                         <div class="sidebar-brand-icon">
                             <!-- Ícone da marca / Hotelaria -->
-                            <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.5 12V1H7.5V12M11.5 12V1H17.5V12M4.5 4H4.51M4.5 7H4.51M4.5 10H4.51M14.5 4H14.51M14.5 7H14.51M14.5 10H14.51" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
-                            </svg>
+                           <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M1.5 12V1H7.5V12M11.5 12V1H17.5V12M4.5 4H4.51M4.5 7H4.51M4.5 10H4.51M14.5 4H14.51M14.5 7H14.51M14.5 10H14.51" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                           </svg>
                         </div>
                         <h4 class="sidebar-brand-title">Hotelaria</h4>
                     </a>
@@ -47,7 +48,7 @@
                             <li class="sidebar-nav-item">
                                 <a href="#painel-quartos" class="sidebar-nav-link active" data-route="painel-quartos">
                                     <span class="sidebar-nav-icon">
-                                        <img src="infrastructure/assets/images/icons/dashboard-icon.svg" width="15" height="15" alt="" aria-hidden="true">
+                                          <img src="infrastructure/assets/images/icons/dashboard-icon.svg" width="15" height="15" alt="" aria-hidden="true">
                                     </span>
                                     <span>Painel de Quartos</span>
                                 </a>
@@ -116,12 +117,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-
-    <!-- Roteador SPA -->
-    <script src="infrastructure/assets/js/roteador.js"></script>
-
+    <!-- Cliente HTTP da API -->
+    <script src="infrastructure/assets/js/api-client.js"></script>
+    <!-- Painel de Quartos (monta contadores e cards) -->
+    <script src="quartos/assets/js/painel-quartos.js"></script>
     <!-- JavaScript próprio -->
     <script src="infrastructure/assets/js/main.js"></script>
+    <!-- Roteador SPA -->
+    <script src="infrastructure/assets/js/roteador.js"></script>
 
 </body>
 
