@@ -9,6 +9,8 @@ let quartos = [];
 let filtroAtual = 'TODOS';
 let carregando = false;
 let mensagemErro = null;
+let alertaAcao = null;
+const idsEmAtualizacao = new Set();
 
 const STATUS_QUARTO = {
     DISPONIVEL: { rotulo: 'Livre', classe: 'livre', icone: 'livre' },
@@ -92,10 +94,15 @@ function montarCard(quarto) {
         ? `<div class="pq-card-hospede">Hóspede: <strong>${escaparHtml(quarto.hospedeAtual)}</strong></div>`
         : '';
 
+    const idQuarto = Number(quarto.id);
+    const atualizando = idsEmAtualizacao.has(idQuarto);
+    const atributoDisabled = atualizando ? ' disabled' : '';
+
     let acoes = '';
     if (quarto.status === 'DISPONIVEL') {
         acoes = `
             <button type="button" class="pq-btn pq-btn-primario">${iconeSvg.checkin} Check-in</button>
+            <button type="button" class="pq-btn pq-btn-manutencao" data-acao="alternar-manutencao" data-id="${idQuarto}" title="Colocar em manutenção" aria-label="Colocar quarto ${numeroSeguro} em manutenção"${atributoDisabled}>${iconeSvg.manutencao}</button>
             <button type="button" class="pq-btn pq-btn-info" aria-label="Detalhes do quarto ${numeroSeguro}">${iconeSvg.info}</button>
         `;
     } else if (quarto.status === 'OCUPADO') {
@@ -103,8 +110,13 @@ function montarCard(quarto) {
             <button type="button" class="pq-btn pq-btn-contorno">${iconeSvg.ver} Ver quarto</button>
             <button type="button" class="pq-btn pq-btn-info" aria-label="Detalhes do quarto ${numeroSeguro}">${iconeSvg.info}</button>
         `;
+    } else if (quarto.status === 'MANUTENCAO') {
+        const textoBotao = atualizando ? 'Liberando...' : `${iconeSvg.livre} Liberar Quarto`;
+        acoes = `
+            <button type="button" class="pq-btn pq-btn-contorno pq-btn-liberar" data-acao="alternar-manutencao" data-id="${idQuarto}" aria-label="Liberar quarto ${numeroSeguro}"${atributoDisabled}>${textoBotao}</button>
+        `;
     } else {
-        // MANUTENCAO ou BLOQUEADO não possuem ações disponíveis
+        // BLOQUEADO não possui ações disponíveis
         acoes = '<span class="pq-sem-acoes">Sem ações disponíveis</span>';
     }
 
@@ -185,7 +197,17 @@ function montarPainel() {
         ? quartos
         : quartos.filter(q => q.status === filtroAtual);
 
+    const alertaHtml = alertaAcao
+        ? `
+            <div class="pq-alerta-erro" role="alert">
+                <span>${escaparHtml(alertaAcao)}</span>
+                <button type="button" class="pq-alerta-fechar" aria-label="Fechar aviso">&times;</button>
+            </div>
+        `
+        : '';
+
     area.innerHTML = `
+        ${alertaHtml}
         <div class="pq-contadores">
             ${montarContador('total', 'TOTAL', contadores.total)}
             ${montarContador('livre', 'LIVRES', contadores.livres)}
@@ -198,11 +220,19 @@ function montarPainel() {
             ${montarFiltro('Todos', contadores.total, 'TODOS')}
             ${montarFiltro('Livres', contadores.livres, 'DISPONIVEL')}
             ${montarFiltro('Ocupados', contadores.ocupados, 'OCUPADO')}
-            ${montarFiltro('Manutenção', contadores.manutencao, 'MANUTENCAO')}
+            ${montarFiltro('Em Manutenção', contadores.manutencao, 'MANUTENCAO')}
         </div>
 
         ${montarConteudoQuartos(quartosFiltrados)}
     `;
+
+    const botaoFecharAlerta = area.querySelector('.pq-alerta-fechar');
+    if (botaoFecharAlerta) {
+        botaoFecharAlerta.addEventListener('click', () => {
+            alertaAcao = null;
+            montarPainel();
+        });
+    }
 
     // clicar em um filtro altera apenas filtroAtual em memória e re-renderiza sem novo fetch nem recálculo dos contadores
     area.querySelectorAll('.pq-filtro').forEach(botao => {
@@ -211,6 +241,44 @@ function montarPainel() {
             montarPainel();
         });
     });
+
+    area.querySelectorAll('[data-acao="alternar-manutencao"]').forEach(botao => {
+        botao.addEventListener('click', () => {
+            alternarManutencao(Number(botao.dataset.id));
+        });
+    });
+}
+
+function recalcularContadores() {
+    contadores = {
+        total: quartos.length,
+        livres: quartos.filter(q => q.status === 'DISPONIVEL').length,
+        ocupados: quartos.filter(q => q.status === 'OCUPADO').length,
+        manutencao: quartos.filter(q => q.status === 'MANUTENCAO').length
+    };
+}
+
+async function alternarManutencao(idQuarto) {
+    if (!idQuarto || idsEmAtualizacao.has(idQuarto)) return;
+
+    idsEmAtualizacao.add(idQuarto);
+    alertaAcao = null;
+    montarPainel();
+
+    try {
+        const quartoAtualizado = await window.apiClient.patch(`/quartos/${idQuarto}/manutencao`);
+        if (quartoAtualizado && quartoAtualizado.id != null) {
+            quartos = quartos.map(q => (Number(q.id) === Number(quartoAtualizado.id) ? quartoAtualizado : q));
+            recalcularContadores();
+        } else {
+            await carregarPainel();
+        }
+    } catch (erro) {
+        alertaAcao = erro?.message || 'Não foi possível alterar o status de manutenção do quarto.';
+    } finally {
+        idsEmAtualizacao.delete(idQuarto);
+        montarPainel();
+    }
 }
 
 async function carregarPainel() {

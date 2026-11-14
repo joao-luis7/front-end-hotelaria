@@ -124,8 +124,26 @@
 /* ---------- Grid de cards ---------- */
 .pq-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
+}
+
+@media (max-width: 1024px) {
+    .pq-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .pq-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .pq-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .pq-card {
@@ -241,6 +259,44 @@
 }
 
 .pq-btn-info:hover { background: #F2F4F7; }
+
+.pq-btn-manutencao {
+    flex: 0 0 32px;
+    padding: 0;
+    background: #FFFFFF;
+    color: var(--pq-manutencao);
+    border-color: var(--pq-manutencao-borda);
+}
+
+.pq-btn-manutencao:hover { background: var(--pq-manutencao-fundo); }
+
+.pq-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pq-alerta-erro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    background: #FFFBFB;
+    border: 1px solid #F5A3A3;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--pq-ocupado);
+}
+
+.pq-alerta-fechar {
+    border: none;
+    background: transparent;
+    color: var(--pq-ocupado);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
 
 .pq-sem-acoes {
     width: 100%;
