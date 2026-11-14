@@ -1,6 +1,10 @@
 /* Painel de Quartos - todas as classes começam com pq- para não conflitar com o resto */
 
 :root {
+    --pq-total: #0F364E;
+    --pq-total-fundo: #E8F0F6;
+    --pq-total-borda: #0F364E;
+
     --pq-livre: #1B7F5F;
     --pq-livre-fundo: #E6F5EF;
     --pq-livre-borda: #4FD1A5;
@@ -12,6 +16,10 @@
     --pq-manutencao: #B45309;
     --pq-manutencao-fundo: #FFF4CC;
     --pq-manutencao-borda: #F5A623;
+
+    --pq-bloqueado: #1D4ED8;
+    --pq-bloqueado-fundo: #DBEAFE;
+    --pq-bloqueado-borda: #60A5FA;
 
     --pq-escuro: #0F364E;
 }
@@ -41,6 +49,7 @@
     border-radius: 8px;
 }
 
+.pq-contador-total { border-left-color: var(--pq-total-borda); }
 .pq-contador-livre { border-left-color: var(--pq-livre-borda); }
 .pq-contador-ocupado { border-left-color: var(--pq-ocupado-borda); }
 .pq-contador-manutencao { border-left-color: var(--pq-manutencao-borda); }
@@ -69,6 +78,7 @@
     border-radius: 8px;
 }
 
+.pq-contador-total .pq-contador-icone { background: var(--pq-total-fundo); color: var(--pq-total); }
 .pq-contador-livre .pq-contador-icone { background: var(--pq-livre-fundo); color: var(--pq-livre); }
 .pq-contador-ocupado .pq-contador-icone { background: var(--pq-ocupado-fundo); color: var(--pq-ocupado); }
 .pq-contador-manutencao .pq-contador-icone { background: var(--pq-manutencao-fundo); color: var(--pq-manutencao); }
@@ -146,6 +156,19 @@
     color: #42474D;
 }
 
+.pq-card-diaria {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pq-escuro);
+}
+
+.pq-card-diaria span {
+    font-size: 11px;
+    font-weight: 400;
+    color: #73777D;
+}
+
 .pq-card-hospede {
     margin-top: 4px;
     font-size: 12px;
@@ -164,7 +187,7 @@
 }
 
 /* espaço entre o texto e a linha de ações (cards sem hóspede ficam do mesmo tamanho) */
-.pq-card-info { min-height: 44px; margin-bottom: 12px; }
+.pq-card-info { min-height: 60px; margin-bottom: 12px; }
 
 /* ---------- Badges de status ---------- */
 .pq-badge {
@@ -182,6 +205,11 @@
 .pq-badge-livre { color: var(--pq-livre); background: var(--pq-livre-fundo); border-color: var(--pq-livre-borda); }
 .pq-badge-ocupado { color: var(--pq-ocupado); background: var(--pq-ocupado-fundo); border-color: #F5A3A3; }
 .pq-badge-manutencao { color: var(--pq-manutencao); background: var(--pq-manutencao-fundo); border-color: var(--pq-manutencao-borda); }
+.pq-badge-bloqueado {
+    color: var(--pq-bloqueado);
+    background: var(--pq-bloqueado-fundo);
+    border-color: var(--pq-bloqueado-borda);
+}
 
 /* ---------- Botões ---------- */
 .pq-btn {
@@ -219,4 +247,44 @@
     text-align: center;
     font-size: 12px;
     color: #73777D;
+}
+
+/* ---------- Estados (Loading, Empty State e Erro) ---------- */
+.pq-estado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 40px 20px;
+    background: #FFFFFF;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.pq-estado-erro {
+    border-color: #F5A3A3;
+    background: #FFFBFB;
+}
+
+.pq-estado-titulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #191C1E;
+}
+
+.pq-estado-erro .pq-estado-titulo {
+    color: var(--pq-ocupado);
+}
+
+.pq-estado-texto {
+    font-size: 12px;
+    color: #42474D;
+}
+
+.pq-btn-tentar-novamente {
+    flex: 0 0 auto;
+    margin-top: 8px;
+    padding: 0 16px;
 }
