@@ -198,7 +198,7 @@ function montarPainel() {
             ${montarFiltro('Todos', contadores.total, 'TODOS')}
             ${montarFiltro('Livres', contadores.livres, 'DISPONIVEL')}
             ${montarFiltro('Ocupados', contadores.ocupados, 'OCUPADO')}
-            ${montarFiltro('Manutenção', contadores.manutencao, 'MANUTENCAO')}
+            ${montarFiltro('Em Manutenção', contadores.manutencao, 'MANUTENCAO')}
         </div>
 
         ${montarConteudoQuartos(quartosFiltrados)}
