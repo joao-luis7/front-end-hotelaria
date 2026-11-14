@@ -1,0 +1,222 @@
+/* Painel de Quartos - todas as classes começam com pq- para não conflitar com o resto */
+
+:root {
+    --pq-livre: #1B7F5F;
+    --pq-livre-fundo: #E6F5EF;
+    --pq-livre-borda: #4FD1A5;
+
+    --pq-ocupado: #BA1A1A;
+    --pq-ocupado-fundo: #FFE1E1;
+    --pq-ocupado-borda: #C62828;
+
+    --pq-manutencao: #B45309;
+    --pq-manutencao-fundo: #FFF4CC;
+    --pq-manutencao-borda: #F5A623;
+
+    --pq-escuro: #0F364E;
+}
+
+/* a section do roteador é uma caixa branca, aqui ela fica transparente */
+#painel-quartos-view {
+    background: transparent;
+    padding: 0;
+}
+
+/* ---------- Contadores ---------- */
+.pq-contadores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.pq-contador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #FFFFFF;
+    border: 1px solid var(--cor-borda);
+    border-left-width: 4px;
+    border-radius: 8px;
+}
+
+.pq-contador-livre { border-left-color: var(--pq-livre-borda); }
+.pq-contador-ocupado { border-left-color: var(--pq-ocupado-borda); }
+.pq-contador-manutencao { border-left-color: var(--pq-manutencao-borda); }
+
+.pq-contador-titulo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #42474D;
+}
+
+.pq-contador-numero {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #191C1E;
+}
+
+.pq-contador-icone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+}
+
+.pq-contador-livre .pq-contador-icone { background: var(--pq-livre-fundo); color: var(--pq-livre); }
+.pq-contador-ocupado .pq-contador-icone { background: var(--pq-ocupado-fundo); color: var(--pq-ocupado); }
+.pq-contador-manutencao .pq-contador-icone { background: var(--pq-manutencao-fundo); color: var(--pq-manutencao); }
+
+/* ---------- Barra de filtros (só visual por enquanto) ---------- */
+.pq-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #42474D;
+}
+
+.pq-filtro {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #ECEEF1;
+    font-size: 12px;
+    font-weight: 600;
+    color: #42474D;
+}
+
+.pq-filtro span {
+    margin-left: 4px;
+    font-weight: 400;
+    color: #73777D;
+}
+
+.pq-filtro.ativo {
+    background: var(--pq-escuro);
+    color: #FFFFFF;
+}
+
+.pq-filtro.ativo span { color: #FFFFFF; }
+
+/* ---------- Grid de cards ---------- */
+.pq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.pq-card {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.pq-card-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.pq-card-numero {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #191C1E;
+}
+
+.pq-card-tipo {
+    font-size: 12px;
+    color: #42474D;
+}
+
+.pq-card-hospede {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #42474D;
+}
+
+.pq-card-hospede strong { color: #191C1E; }
+
+.pq-card-acoes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #ECEEF1;
+}
+
+/* espaço entre o texto e a linha de ações (cards sem hóspede ficam do mesmo tamanho) */
+.pq-card-info { min-height: 44px; margin-bottom: 12px; }
+
+/* ---------- Badges de status ---------- */
+.pq-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border: 1px solid;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pq-badge-livre { color: var(--pq-livre); background: var(--pq-livre-fundo); border-color: var(--pq-livre-borda); }
+.pq-badge-ocupado { color: var(--pq-ocupado); background: var(--pq-ocupado-fundo); border-color: #F5A3A3; }
+.pq-badge-manutencao { color: var(--pq-manutencao); background: var(--pq-manutencao-fundo); border-color: var(--pq-manutencao-borda); }
+
+/* ---------- Botões ---------- */
+.pq-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    height: 32px;
+    border: 1px solid var(--pq-escuro);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pq-btn-primario { background: var(--pq-escuro); color: #FFFFFF; }
+.pq-btn-primario:hover { background: #0A2536; }
+
+.pq-btn-contorno { background: #FFFFFF; color: var(--pq-escuro); border-color: var(--cor-borda); }
+.pq-btn-contorno:hover { background: #F2F4F7; }
+
+.pq-btn-info {
+    flex: 0 0 32px;
+    padding: 0;
+    background: #FFFFFF;
+    color: var(--pq-escuro);
+    border-color: var(--cor-borda);
+}
+
+.pq-btn-info:hover { background: #F2F4F7; }
+
+.pq-sem-acoes {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #73777D;
+}
