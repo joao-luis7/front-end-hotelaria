@@ -16,8 +16,13 @@
         const sufixo = caminho.startsWith('/') ? caminho : `/${caminho}`;
         const url = `${BASE_URL}${sufixo}`;
 
+        const perfil = (global.sessaoUsuario && typeof global.sessaoUsuario.obterPerfil === 'function')
+            ? global.sessaoUsuario.obterPerfil()
+            : (global.localStorage && global.localStorage.getItem('usuario_perfil'));
+
         const cabecalhos = Object.assign(
             { Accept: 'application/json' },
+            perfil ? { 'X-User-Role': perfil } : {},
             opcoes.body !== undefined ? { 'Content-Type': 'application/json' } : {},
             opcoes.headers || {}
         );
