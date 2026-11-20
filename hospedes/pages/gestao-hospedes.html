@@ -9,11 +9,7 @@
 
         <div class="gh-cabecalho-acoes">
             <button type="button" class="gh-btn-novo" id="btn-novo-hospede">
-                <span class="gh-btn-novo-icone" aria-hidden="true">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 1.5V10.5M1.5 6H10.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
+                <span class="gh-btn-novo-icone" id="gh-icone-novo" aria-hidden="true"></span>
                 <span>Novo hóspede</span>
             </button>
         </div>
@@ -25,12 +21,7 @@
     <!-- Campo de Busca Simples (Figma: 448px x 42px) — compartilhado entre busca por nome e busca por CPF -->
     <form class="gh-busca-form" id="form-busca-hospede" role="search" novalidate>
         <div class="gh-busca-wrapper">
-            <span class="gh-busca-icone" aria-hidden="true">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="7.2" cy="7.2" r="5.4" stroke="#72787D" stroke-width="1.6"/>
-                    <path d="M11.2 11.2L14.4 14.4" stroke="#72787D" stroke-width="1.6" stroke-linecap="round"/>
-                </svg>
-            </span>
+            <span class="gh-busca-icone" id="gh-icone-busca" aria-hidden="true"></span>
             <input
                 type="search"
                 id="input-busca-hospede"
@@ -69,11 +60,7 @@
             <div class="modal-content gh-modal-content">
                 <div class="gh-modal-topo">
                     <h3 class="modal-title gh-modal-titulo" id="titulo-modal-cadastro-hospede">Novo hóspede</h3>
-                    <button type="button" class="gh-modal-fechar" data-bs-dismiss="modal" aria-label="Fechar">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M9.5 2.5L2.5 9.5M2.5 2.5L9.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
+                    <button type="button" class="gh-modal-fechar" id="gh-btn-fechar-modal" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
 
                 <p class="gh-modal-subtitulo">Preencha os dados para registrar um novo hóspede.</p>

@@ -22,7 +22,9 @@ window.gestaoHospedes = (function () {
         editar: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.3 2.3a1.5 1.5 0 0 1 2.1 2.1L5 12.8l-3 .7.7-3 8.6-8.2z"/></svg>',
         lixeira: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4h11M5.5 4V2.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V4M6.5 7v4.5M9.5 7v4.5M3.8 4l.6 9.2a1.2 1.2 0 0 0 1.2 1.1h4.8a1.2 1.2 0 0 0 1.2-1.1L12.2 4"/></svg>',
         usuarioNaoEncontrado: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="6.5" r="3.2"/><path d="M2.8 16.5c0-3 2.5-5 5.7-5 1.1 0 2.1.3 3 .8"/><path d="M14 12.5l4 4M18 12.5l-4 4"/></svg>',
-        mais: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5V10.5M1.5 6H10.5"/></svg>'
+        mais: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5V10.5M1.5 6H10.5"/></svg>',
+        lupa: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7.2" cy="7.2" r="5.4" stroke="#72787D" stroke-width="1.6"/><path d="M11.2 11.2L14.4 14.4" stroke="#72787D" stroke-width="1.6" stroke-linecap="round"/></svg>',
+        fechar: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.5 2.5L2.5 9.5M2.5 2.5L9.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     };
 
     function escaparHtml(valor) {
@@ -622,7 +624,20 @@ window.gestaoHospedes = (function () {
         }
     }
 
+    function montarIconesEstaticos() {
+        const iconeNovo = document.getElementById('gh-icone-novo');
+        if (iconeNovo) iconeNovo.innerHTML = iconeSvg.mais;
+
+        const iconeBusca = document.getElementById('gh-icone-busca');
+        if (iconeBusca) iconeBusca.innerHTML = iconeSvg.lupa;
+
+        const btnFecharModal = document.getElementById('gh-btn-fechar-modal');
+        if (btnFecharModal) btnFecharModal.innerHTML = iconeSvg.fechar;
+    }
+
     function configurarEventos() {
+        montarIconesEstaticos();
+
         const btnNovoHospede = document.getElementById('btn-novo-hospede');
         if (btnNovoHospede) {
             btnNovoHospede.addEventListener('click', () => abrirModalCadastro(''));
