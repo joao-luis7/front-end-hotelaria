@@ -1,6 +1,7 @@
 /**
  * gestao-hospedes.js - Controlador da tela de Gestão de Hóspedes (PB-07 + PB-08)
- * Etapa Task 04: Listagem inicial da tabela, filtro por nome e busca rápida por CPF (GET /api/v1/hospedes/cpf/{cpf}).
+ * Responsável pelo Modal de Cadastro (POST /api/v1/hospedes), Busca Rápida por CPF
+ * (GET /api/v1/hospedes/cpf/{cpf}) e integração com a tabela de hóspedes.
  */
 window.gestaoHospedes = (function () {
     'use strict';
@@ -13,6 +14,7 @@ window.gestaoHospedes = (function () {
     let resultadoBuscaCpf = null; // { tipo: 'ENCONTRADO' | 'NAO_ENCONTRADO' | 'ERRO', hospede?: Object, cpfLimpo?: string, mensagem?: string }
     let feedbackTopo = null; // { tipo: 'sucesso' | 'erro' | 'info', mensagem: string }
     let idHospedeDestacado = null;
+    let salvandoCadastro = false;
     let instanciaModalBootstrap = null;
     let sequenciaBuscaCpf = 0;
 
@@ -397,6 +399,66 @@ window.gestaoHospedes = (function () {
         return null;
     }
 
+    function limparErrosFormularioModal() {
+        const alertaModal = document.getElementById('gh-alerta-modal');
+        if (alertaModal) alertaModal.innerHTML = '';
+
+        const mapaCampos = [
+            { input: 'input-nome-hospede', erro: 'erro-nome-hospede' },
+            { input: 'input-cpf-hospede', erro: 'erro-cpf-hospede' },
+            { input: 'input-telefone-hospede', erro: 'erro-telefone-hospede' },
+            { input: 'input-email-hospede', erro: 'erro-email-hospede' }
+        ];
+
+        mapaCampos.forEach(({ input, erro }) => {
+            const elInput = document.getElementById(input);
+            const elErro = document.getElementById(erro);
+            if (elInput) elInput.classList.remove('gh-input-invalido');
+            if (elErro) elErro.textContent = '';
+        });
+    }
+
+    function exibirAlertaModal(mensagem, tipo = 'erro') {
+        const alertaModal = document.getElementById('gh-alerta-modal');
+        if (!alertaModal) return;
+
+        const classe = tipo === 'sucesso' ? 'gh-alerta-sucesso' : 'gh-alerta-erro';
+        alertaModal.innerHTML = `
+            <div class="gh-alerta ${classe}" role="alert">
+                <span>${escaparHtml(mensagem)}</span>
+            </div>
+        `;
+    }
+
+    function aplicarErrosNosCamposModal(erros = {}) {
+        const mapa = {
+            nomeCompleto: { input: 'input-nome-hospede', erro: 'erro-nome-hospede' },
+            cpf: { input: 'input-cpf-hospede', erro: 'erro-cpf-hospede' },
+            telefone: { input: 'input-telefone-hospede', erro: 'erro-telefone-hospede' },
+            email: { input: 'input-email-hospede', erro: 'erro-email-hospede' }
+        };
+
+        let primeiroInputComErro = null;
+
+        Object.entries(erros).forEach(([campo, mensagem]) => {
+            const alvo = mapa[campo];
+            if (!alvo) return;
+            const elInput = document.getElementById(alvo.input);
+            const elErro = document.getElementById(alvo.erro);
+            if (elInput) {
+                elInput.classList.add('gh-input-invalido');
+                if (!primeiroInputComErro) primeiroInputComErro = elInput;
+            }
+            if (elErro) {
+                elErro.textContent = mensagem;
+            }
+        });
+
+        if (primeiroInputComErro) {
+            primeiroInputComErro.focus();
+        }
+    }
+
     /**
      * Abre o Modal "+ Novo hóspede", opcionalmente pré-preenchendo o CPF (CA-10).
      * @param {string} [cpfPrePreenchido='']
@@ -404,6 +466,7 @@ window.gestaoHospedes = (function () {
     function abrirModalCadastro(cpfPrePreenchido = '') {
         const form = document.getElementById('form-cadastro-hospede');
         if (form) form.reset();
+        limparErrosFormularioModal();
 
         const inputNome = document.getElementById('input-nome-hospede');
         const inputCpf = document.getElementById('input-cpf-hospede');
@@ -437,6 +500,116 @@ window.gestaoHospedes = (function () {
         setTimeout(() => {
             if (inputNome) inputNome.focus();
         }, 120);
+    }
+
+    function fecharModalCadastro() {
+        const modal = obterInstanciaModal();
+        if (modal) {
+            modal.hide();
+        } else {
+            const elModal = document.getElementById('modal-cadastro-hospede');
+            if (elModal) {
+                elModal.classList.remove('show');
+                elModal.style.display = 'none';
+                elModal.setAttribute('aria-hidden', 'true');
+            }
+        }
+    }
+
+    function definirEstadoBotaoSalvar(ocupado) {
+        salvandoCadastro = ocupado;
+        const btnSalvar = document.getElementById('btn-salvar-hospede');
+        const btnCancelar = document.getElementById('btn-cancelar-hospede');
+        if (btnSalvar) {
+            btnSalvar.disabled = ocupado;
+            btnSalvar.textContent = ocupado ? 'Salvando...' : 'Salvar hóspede';
+        }
+        if (btnCancelar) {
+            btnCancelar.disabled = ocupado;
+        }
+    }
+
+    async function submeterCadastroHospede(evento) {
+        evento.preventDefault();
+        if (salvandoCadastro) return;
+
+        limparErrosFormularioModal();
+
+        const inputNome = document.getElementById('input-nome-hospede');
+        const inputCpf = document.getElementById('input-cpf-hospede');
+        const inputTelefone = document.getElementById('input-telefone-hospede');
+        const inputEmail = document.getElementById('input-email-hospede');
+
+        const validacao = window.hospedeService.validarDadosCadastro({
+            nomeCompleto: inputNome ? inputNome.value : '',
+            cpf: inputCpf ? inputCpf.value : '',
+            telefone: inputTelefone ? inputTelefone.value : '',
+            email: inputEmail ? inputEmail.value : ''
+        });
+
+        if (!validacao.valido) {
+            aplicarErrosNosCamposModal(validacao.erros);
+            exibirAlertaModal('Verifique os campos obrigatórios destacados abaixo.');
+            return;
+        }
+
+        definirEstadoBotaoSalvar(true);
+
+        try {
+            const novoHospede = await window.hospedeService.cadastrar(validacao.payload);
+
+            // 201 Created: fecha modal, limpa busca 404 anterior, atualiza tabela e destaca o novo hóspede
+            fecharModalCadastro();
+            mesclarHospedeNaLista(novoHospede);
+            idHospedeDestacado = novoHospede.id;
+
+            // Se a barra de busca estava com o CPF recém-cadastrado, atualiza o resultado para ENCONTRADO
+            if (window.hospedeService.ehBuscaPorCpf(termoBuscaAtual) &&
+                window.hospedeService.sanitizarCpf(termoBuscaAtual) === window.hospedeService.sanitizarCpf(novoHospede.cpf)) {
+                resultadoBuscaCpf = {
+                    tipo: 'ENCONTRADO',
+                    hospede: novoHospede,
+                    cpfLimpo: window.hospedeService.sanitizarCpf(novoHospede.cpf)
+                };
+            } else {
+                resultadoBuscaCpf = null;
+            }
+
+            feedbackTopo = {
+                tipo: 'sucesso',
+                mensagem: `Hóspede "${novoHospede.nomeCompleto}" cadastrado com sucesso!`
+            };
+            renderizarFeedbackTopo();
+            renderizarConteudoTabela();
+
+            document.dispatchEvent(new CustomEvent('hospede:cadastrado', { detail: novoHospede }));
+        } catch (erro) {
+            const status = erro?.status;
+            const mensagemApi = erro?.message || 'Não foi possível concluir o cadastro do hóspede.';
+
+            if (status === 409) {
+                // 409 Conflict (CA-09): CPF já cadastrado no sistema
+                exibirAlertaModal(mensagemApi);
+                aplicarErrosNosCamposModal({
+                    cpf: 'Este CPF já está cadastrado no sistema.'
+                });
+            } else if (status === 400) {
+                // 400 Bad Request (CA-09): validação de campos no servidor
+                exibirAlertaModal(mensagemApi);
+                const errosServidor = {};
+                if (/nomeCompleto|nome/i.test(mensagemApi)) errosServidor.nomeCompleto = 'Verifique o nome informado.';
+                if (/cpf/i.test(mensagemApi)) errosServidor.cpf = 'Verifique o CPF informado.';
+                if (/telefone/i.test(mensagemApi)) errosServidor.telefone = 'Verifique o telefone informado.';
+                if (/email/i.test(mensagemApi)) errosServidor.email = 'Verifique o e-mail informado.';
+                if (Object.keys(errosServidor).length > 0) {
+                    aplicarErrosNosCamposModal(errosServidor);
+                }
+            } else {
+                exibirAlertaModal(mensagemApi);
+            }
+        } finally {
+            definirEstadoBotaoSalvar(false);
+        }
     }
 
     function atualizarBotaoLimparBusca() {
@@ -516,6 +689,50 @@ window.gestaoHospedes = (function () {
                 atualizarBotaoLimparBusca();
                 renderizarConteudoTabela();
             });
+        }
+
+        // Máscaras em tempo real no Modal de Cadastro
+        const inputCpfModal = document.getElementById('input-cpf-hospede');
+        if (inputCpfModal) {
+            inputCpfModal.addEventListener('input', () => {
+                inputCpfModal.value = window.hospedeService.formatarCpf(inputCpfModal.value);
+                inputCpfModal.classList.remove('gh-input-invalido');
+                const erroCpf = document.getElementById('erro-cpf-hospede');
+                if (erroCpf) erroCpf.textContent = '';
+            });
+        }
+
+        const inputTelefoneModal = document.getElementById('input-telefone-hospede');
+        if (inputTelefoneModal) {
+            inputTelefoneModal.addEventListener('input', () => {
+                inputTelefoneModal.value = window.hospedeService.formatarTelefone(inputTelefoneModal.value);
+                inputTelefoneModal.classList.remove('gh-input-invalido');
+                const erroTelefone = document.getElementById('erro-telefone-hospede');
+                if (erroTelefone) erroTelefone.textContent = '';
+            });
+        }
+
+        const inputNomeModal = document.getElementById('input-nome-hospede');
+        if (inputNomeModal) {
+            inputNomeModal.addEventListener('input', () => {
+                inputNomeModal.classList.remove('gh-input-invalido');
+                const erroNome = document.getElementById('erro-nome-hospede');
+                if (erroNome) erroNome.textContent = '';
+            });
+        }
+
+        const inputEmailModal = document.getElementById('input-email-hospede');
+        if (inputEmailModal) {
+            inputEmailModal.addEventListener('input', () => {
+                inputEmailModal.classList.remove('gh-input-invalido');
+                const erroEmail = document.getElementById('erro-email-hospede');
+                if (erroEmail) erroEmail.textContent = '';
+            });
+        }
+
+        const formCadastro = document.getElementById('form-cadastro-hospede');
+        if (formCadastro) {
+            formCadastro.addEventListener('submit', submeterCadastroHospede);
         }
     }
 
