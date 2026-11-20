@@ -434,86 +434,147 @@
     padding: 0 2px;
 }
 
-/* ---------- Modal de Cadastro de Hóspede (PB-07) ---------- */
-.gh-modal-content {
-    border: 1px solid var(--gh-borda);
-    border-radius: 12px;
-    box-shadow: 0 12px 32px rgba(15, 54, 78, 0.16);
+/* ---------- Modal de Cadastro de Hóspede (PB-07 - Figma) ---------- */
+.gh-modal-dialog {
+    max-width: 448px;
+    width: 100%;
 }
 
-.gh-modal-header {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--gh-borda-suave);
+.gh-modal-content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
+    padding: 24px;
+    width: 100%;
+    max-width: 448px;
+    min-height: 454px;
+    background: #FFFFFF;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 12px;
+    box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.gh-modal-topo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 12px 0;
+    width: 100%;
+    min-height: 35.67px;
 }
 
 .gh-modal-titulo {
-    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 600;
-    color: var(--gh-texto-titulo);
+    font-size: 20px;
+    line-height: 20px;
+    color: #0F364E;
     margin: 0;
 }
 
+.gh-modal-fechar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7.63px 4px 4.37px;
+    width: 19.67px;
+    height: 23.67px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #94A3B8;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.gh-modal-fechar:hover {
+    color: #475569;
+    background: #F1F5F9;
+}
+
 .gh-modal-subtitulo {
-    font-size: 13px;
-    color: var(--gh-texto-corpo);
-    margin-top: 2px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #64748B;
+    margin: 0;
+    width: 100%;
 }
 
-.gh-modal-body {
-    padding: 20px 24px;
+.gh-modal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 0 0 0;
+    gap: 16px;
+    width: 100%;
 }
 
-.gh-modal-footer {
-    padding: 16px 24px 20px;
-    border-top: 1px solid var(--gh-borda-suave);
-    gap: 10px;
+#gh-alerta-modal {
+    width: 100%;
+}
+
+#gh-alerta-modal:empty {
+    display: none;
+}
+
+#gh-alerta-modal .gh-alerta {
+    margin-bottom: 0;
 }
 
 .gh-campo-grupo {
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
-}
-
-.gh-campos-linha {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    align-items: flex-start;
+    padding: 0;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
 }
 
 .gh-label {
-    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
     font-weight: 600;
-    color: var(--gh-texto-titulo);
-    margin-bottom: 6px;
-}
-
-.gh-obrigatorio {
-    color: var(--gh-erro);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #334155;
+    margin: 0;
 }
 
 .gh-opcional {
-    font-weight: 400;
-    color: var(--gh-texto-placeholder);
+    text-transform: lowercase;
+    font-weight: 600;
+    color: #334155;
 }
 
 .gh-input {
     box-sizing: border-box;
     width: 100%;
-    height: 40px;
-    padding: 8px 12px;
+    height: 38px;
+    padding: 9px 12px 10px;
     background: #FFFFFF;
-    border: 1px solid var(--gh-borda);
+    border: 1px solid #CBD5E1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
     font-size: 14px;
+    line-height: 17px;
     color: var(--gh-texto-titulo);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .gh-input::placeholder {
-    color: var(--gh-texto-placeholder);
+    color: #94A3B8;
 }
 
 .gh-input:focus {
@@ -532,10 +593,84 @@
 }
 
 .gh-erro-campo {
-    min-height: 16px;
-    margin-top: 4px;
     font-size: 12px;
+    line-height: 16px;
     color: var(--gh-erro);
+}
+
+.gh-erro-campo:empty {
+    display: none;
+}
+
+.gh-modal-footer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 16px 0 0 0;
+    gap: 12px;
+    width: 100%;
+    min-height: 55px;
+    border-top: 1px solid #F1F5F9;
+    margin-top: 0;
+}
+
+.gh-btn-cancelar-modal {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    min-width: 93.84px;
+    height: 38px;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #334155;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gh-btn-cancelar-modal:hover {
+    background: #F8FAFC;
+}
+
+.gh-btn-salvar-modal {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    min-width: 81.94px;
+    height: 36px;
+    background: #0F364E;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.gh-btn-salvar-modal:hover {
+    background: var(--gh-primaria-hover);
+}
+
+.gh-btn-cancelar-modal:disabled,
+.gh-btn-salvar-modal:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 
 .gh-btn {
@@ -580,11 +715,6 @@
 }
 
 @media (max-width: 640px) {
-    .gh-campos-linha {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
     .gh-tabela th,
     .gh-tabela td {
         padding: 12px 16px;

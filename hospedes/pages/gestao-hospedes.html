@@ -65,97 +65,90 @@
         aria-labelledby="titulo-modal-cadastro-hospede"
         aria-hidden="true"
     >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered gh-modal-dialog">
             <div class="modal-content gh-modal-content">
-                <div class="modal-header gh-modal-header">
-                    <div>
-                        <h3 class="modal-title gh-modal-titulo" id="titulo-modal-cadastro-hospede">Novo hóspede</h3>
-                        <p class="gh-modal-subtitulo mb-0">Preencha os dados cadastrais para registrar o cliente.</p>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                <div class="gh-modal-topo">
+                    <h3 class="modal-title gh-modal-titulo" id="titulo-modal-cadastro-hospede">Novo hóspede</h3>
+                    <button type="button" class="gh-modal-fechar" data-bs-dismiss="modal" aria-label="Fechar">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M9.5 2.5L2.5 9.5M2.5 2.5L9.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
 
-                <form id="form-cadastro-hospede" novalidate>
-                    <div class="modal-body gh-modal-body">
-                        <!-- Alerta interno para erros 400 Bad Request ou 409 Conflict -->
-                        <div id="gh-alerta-modal"></div>
+                <p class="gh-modal-subtitulo">Preencha os dados para registrar um novo hóspede.</p>
 
-                        <div class="gh-campo-grupo">
-                            <label for="input-nome-hospede" class="gh-label">
-                                Nome completo <span class="gh-obrigatorio" aria-hidden="true">*</span>
-                            </label>
-                            <input
-                                type="text"
-                                id="input-nome-hospede"
-                                name="nomeCompleto"
-                                class="gh-input"
-                                placeholder="Ex.: Mariana Costa Silva"
-                                maxlength="150"
-                                autocomplete="name"
-                                required
-                            >
-                            <div class="gh-erro-campo" id="erro-nome-hospede"></div>
-                        </div>
+                <form id="form-cadastro-hospede" class="gh-modal-form" novalidate>
+                    <!-- Alerta interno para erros 400 Bad Request ou 409 Conflict -->
+                    <div id="gh-alerta-modal"></div>
 
-                        <div class="gh-campos-linha">
-                            <div class="gh-campo-grupo">
-                                <label for="input-cpf-hospede" class="gh-label">
-                                    CPF <span class="gh-obrigatorio" aria-hidden="true">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="input-cpf-hospede"
-                                    name="cpf"
-                                    class="gh-input"
-                                    placeholder="000.000.000-00"
-                                    maxlength="14"
-                                    inputmode="numeric"
-                                    autocomplete="off"
-                                    required
-                                >
-                                <div class="gh-erro-campo" id="erro-cpf-hospede"></div>
-                            </div>
-
-                            <div class="gh-campo-grupo">
-                                <label for="input-telefone-hospede" class="gh-label">
-                                    Telefone <span class="gh-obrigatorio" aria-hidden="true">*</span>
-                                </label>
-                                <input
-                                    type="tel"
-                                    id="input-telefone-hospede"
-                                    name="telefone"
-                                    class="gh-input"
-                                    placeholder="(00) 00000-0000"
-                                    maxlength="15"
-                                    inputmode="tel"
-                                    autocomplete="tel"
-                                    required
-                                >
-                                <div class="gh-erro-campo" id="erro-telefone-hospede"></div>
-                            </div>
-                        </div>
-
-                        <div class="gh-campo-grupo mb-0">
-                            <label for="input-email-hospede" class="gh-label">
-                                E-mail <span class="gh-opcional">(opcional)</span>
-                            </label>
-                            <input
-                                type="email"
-                                id="input-email-hospede"
-                                name="email"
-                                class="gh-input"
-                                placeholder="Ex.: mariana.silva@email.com"
-                                maxlength="150"
-                                autocomplete="email"
-                            >
-                            <div class="gh-erro-campo" id="erro-email-hospede"></div>
-                        </div>
+                    <div class="gh-campo-grupo">
+                        <label for="input-nome-hospede" class="gh-label">NOME COMPLETO</label>
+                        <input
+                            type="text"
+                            id="input-nome-hospede"
+                            name="nomeCompleto"
+                            class="gh-input"
+                            placeholder="Ex: Mariana Silva"
+                            maxlength="150"
+                            autocomplete="name"
+                            required
+                        >
+                        <div class="gh-erro-campo" id="erro-nome-hospede"></div>
                     </div>
 
-                    <div class="modal-footer gh-modal-footer">
+                    <div class="gh-campo-grupo">
+                        <label for="input-cpf-hospede" class="gh-label">CPF</label>
+                        <input
+                            type="text"
+                            id="input-cpf-hospede"
+                            name="cpf"
+                            class="gh-input"
+                            placeholder="000.000.000-00"
+                            maxlength="14"
+                            inputmode="numeric"
+                            autocomplete="off"
+                            required
+                        >
+                        <div class="gh-erro-campo" id="erro-cpf-hospede"></div>
+                    </div>
+
+                    <div class="gh-campo-grupo">
+                        <label for="input-telefone-hospede" class="gh-label">TELEFONE</label>
+                        <input
+                            type="tel"
+                            id="input-telefone-hospede"
+                            name="telefone"
+                            class="gh-input"
+                            placeholder="(00) 00000-0000"
+                            maxlength="15"
+                            inputmode="tel"
+                            autocomplete="tel"
+                            required
+                        >
+                        <div class="gh-erro-campo" id="erro-telefone-hospede"></div>
+                    </div>
+
+                    <div class="gh-campo-grupo">
+                        <label for="input-email-hospede" class="gh-label">
+                            EMAIL <span class="gh-opcional">(opcional)</span>
+                        </label>
+                        <input
+                            type="email"
+                            id="input-email-hospede"
+                            name="email"
+                            class="gh-input"
+                            placeholder="usuario@gmail.com"
+                            maxlength="150"
+                            autocomplete="email"
+                        >
+                        <div class="gh-erro-campo" id="erro-email-hospede"></div>
+                    </div>
+
+                    <div class="gh-modal-footer">
                         <button
                             type="button"
-                            class="gh-btn gh-btn-secundario"
+                            class="gh-btn-cancelar-modal"
                             id="btn-cancelar-hospede"
                             data-bs-dismiss="modal"
                         >
@@ -163,10 +156,10 @@
                         </button>
                         <button
                             type="submit"
-                            class="gh-btn gh-btn-primario"
+                            class="gh-btn-salvar-modal"
                             id="btn-salvar-hospede"
                         >
-                            Salvar hóspede
+                            Salvar
                         </button>
                     </div>
                 </form>

@@ -522,7 +522,7 @@ window.gestaoHospedes = (function () {
         const btnCancelar = document.getElementById('btn-cancelar-hospede');
         if (btnSalvar) {
             btnSalvar.disabled = ocupado;
-            btnSalvar.textContent = ocupado ? 'Salvando...' : 'Salvar hóspede';
+            btnSalvar.textContent = ocupado ? 'Salvando...' : 'Salvar';
         }
         if (btnCancelar) {
             btnCancelar.disabled = ocupado;
