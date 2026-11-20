@@ -26,7 +26,88 @@ const rotas = {
     },
     'hospedes': {
         titulo: 'Hóspedes',
-        desenvolvido: false
+        desenvolvido: true,
+        caminhoArquivo: 'hospedes/pages/gestao-hospedes.html',
+        perfisPermitidos: ['Recepcionista', 'Dono'],
+        aoRenderizar: () => window.gestaoHospedes && window.gestaoHospedes.renderizar(),
+        templateFallback: `
+            <section class="area-conteudo" id="gestao-hospedes-view">
+                <header class="gh-cabecalho">
+                    <div class="gh-cabecalho-textos">
+                        <h2 class="gh-titulo">Hóspedes</h2>
+                        <p class="gh-subtitulo">Cadastro e histórico dos hóspedes do hotel</p>
+                    </div>
+                    <div class="gh-cabecalho-acoes">
+                        <button type="button" class="gh-btn-novo" id="btn-novo-hospede">
+                            <span class="gh-btn-novo-icone" aria-hidden="true">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 1.5V10.5M1.5 6H10.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>Novo hóspede</span>
+                        </button>
+                    </div>
+                </header>
+                <div id="gh-feedback-topo"></div>
+                <form class="gh-busca-form" id="form-busca-hospede" role="search" novalidate>
+                    <div class="gh-busca-wrapper">
+                        <span class="gh-busca-icone" aria-hidden="true">
+                            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="7.2" cy="7.2" r="5.4" stroke="#72787D" stroke-width="1.6"/>
+                                <path d="M11.2 11.2L14.4 14.4" stroke="#72787D" stroke-width="1.6" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <input type="search" id="input-busca-hospede" class="gh-busca-input" placeholder="Buscar por nome ou CPF..." autocomplete="off" aria-label="Buscar por nome ou CPF">
+                        <button type="button" id="btn-limpar-busca-hospede" class="gh-busca-limpar d-none" title="Limpar busca" aria-label="Limpar busca">&times;</button>
+                    </div>
+                </form>
+                <div id="gh-conteudo-tabela"></div>
+                <div class="modal fade" id="modal-cadastro-hospede" tabindex="-1" aria-labelledby="titulo-modal-cadastro-hospede" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content gh-modal-content">
+                            <div class="modal-header gh-modal-header">
+                                <div>
+                                    <h3 class="modal-title gh-modal-titulo" id="titulo-modal-cadastro-hospede">Novo hóspede</h3>
+                                    <p class="gh-modal-subtitulo mb-0">Preencha os dados cadastrais para registrar o cliente.</p>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <form id="form-cadastro-hospede" novalidate>
+                                <div class="modal-body gh-modal-body">
+                                    <div id="gh-alerta-modal"></div>
+                                    <div class="gh-campo-grupo">
+                                        <label for="input-nome-hospede" class="gh-label">Nome completo <span class="gh-obrigatorio">*</span></label>
+                                        <input type="text" id="input-nome-hospede" name="nomeCompleto" class="gh-input" placeholder="Ex.: Mariana Costa Silva" maxlength="150" required>
+                                        <div class="gh-erro-campo" id="erro-nome-hospede"></div>
+                                    </div>
+                                    <div class="gh-campos-linha">
+                                        <div class="gh-campo-grupo">
+                                            <label for="input-cpf-hospede" class="gh-label">CPF <span class="gh-obrigatorio">*</span></label>
+                                            <input type="text" id="input-cpf-hospede" name="cpf" class="gh-input" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" required>
+                                            <div class="gh-erro-campo" id="erro-cpf-hospede"></div>
+                                        </div>
+                                        <div class="gh-campo-grupo">
+                                            <label for="input-telefone-hospede" class="gh-label">Telefone <span class="gh-obrigatorio">*</span></label>
+                                            <input type="tel" id="input-telefone-hospede" name="telefone" class="gh-input" placeholder="(00) 00000-0000" maxlength="15" inputmode="tel" required>
+                                            <div class="gh-erro-campo" id="erro-telefone-hospede"></div>
+                                        </div>
+                                    </div>
+                                    <div class="gh-campo-grupo mb-0">
+                                        <label for="input-email-hospede" class="gh-label">E-mail <span class="gh-opcional">(opcional)</span></label>
+                                        <input type="email" id="input-email-hospede" name="email" class="gh-input" placeholder="Ex.: mariana.silva@email.com" maxlength="150">
+                                        <div class="gh-erro-campo" id="erro-email-hospede"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer gh-modal-footer">
+                                    <button type="button" class="gh-btn gh-btn-secundario" id="btn-cancelar-hospede" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="gh-btn gh-btn-primario" id="btn-salvar-hospede">Salvar hóspede</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `
     },
     'check-in': {
         titulo: 'Check-in',
