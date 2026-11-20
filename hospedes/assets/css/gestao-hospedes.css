@@ -1,0 +1,722 @@
+/* Gestão de Hóspedes (PB-07 + PB-08) - classes prefixadas com gh- para isolamento modular */
+
+:root {
+    --gh-primaria: #0F364E;
+    --gh-primaria-hover: #0A2536;
+    --gh-texto-titulo: #191C1E;
+    --gh-texto-corpo: #42474D;
+    --gh-texto-placeholder: #72787D;
+    --gh-borda: #C2C7CD;
+    --gh-borda-suave: #ECEEF1;
+    --gh-fundo-cabecalho-tabela: #F2F4F7;
+
+    --gh-ativo-fundo: #A6D8FF;
+    --gh-ativo-texto: #0F364E;
+    --gh-inativo-fundo: #ECEEF1;
+    --gh-inativo-texto: #42474D;
+
+    --gh-erro: #BA1A1A;
+    --gh-erro-fundo: #FFF5F5;
+    --gh-erro-borda: #F5A3A3;
+
+    --gh-sucesso: #1B7F5F;
+    --gh-sucesso-fundo: #E6F5EF;
+    --gh-sucesso-borda: #4FD1A5;
+}
+
+/* Remove o fundo branco padrão da section do roteador para usar o layout do Figma */
+#gestao-hospedes-view {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+/* ---------- Cabeçalho da Página (Figma: 976px x 54px) ---------- */
+.gh-cabecalho {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 54px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.gh-cabecalho-textos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.gh-titulo {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.24px;
+    color: var(--gh-texto-titulo);
+}
+
+.gh-subtitulo {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--gh-texto-corpo);
+}
+
+.gh-btn-novo {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    gap: 8px;
+    min-width: 156.23px;
+    height: 40px;
+    background: var(--gh-primaria);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.gh-btn-novo:hover {
+    background: var(--gh-primaria-hover);
+}
+
+.gh-btn-novo-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+}
+
+/* ---------- Campo de Busca Simples (Figma: 448px x 42px) ---------- */
+.gh-busca-form {
+    margin-bottom: 20px;
+}
+
+.gh-busca-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 448px;
+    height: 42px;
+    isolation: isolate;
+}
+
+.gh-busca-icone {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gh-busca-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 42px;
+    padding: 11px 38px 12px 40px;
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--gh-texto-titulo);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gh-busca-input::placeholder {
+    color: var(--gh-texto-placeholder);
+}
+
+.gh-busca-input:focus {
+    outline: none;
+    border-color: var(--gh-primaria);
+    box-shadow: 0 0 0 3px rgba(15, 54, 78, 0.12);
+}
+
+.gh-busca-limpar {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--gh-texto-placeholder);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gh-busca-limpar:hover {
+    color: var(--gh-texto-titulo);
+    background: var(--gh-borda-suave);
+}
+
+/* ---------- Tabela de Hóspedes ---------- */
+.gh-tabela-card {
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.gh-tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.gh-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+}
+
+.gh-tabela thead tr {
+    background: var(--gh-fundo-cabecalho-tabela);
+    border-bottom: 1px solid var(--gh-borda);
+}
+
+.gh-tabela th {
+    padding: 14px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gh-texto-corpo);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.gh-tabela th.gh-col-acoes,
+.gh-tabela td.gh-col-acoes {
+    text-align: right;
+}
+
+.gh-tabela tbody tr {
+    border-bottom: 1px solid var(--gh-borda-suave);
+    transition: background-color 0.12s ease;
+}
+
+.gh-tabela tbody tr:last-child {
+    border-bottom: none;
+}
+
+.gh-tabela tbody tr:hover {
+    background-color: #F9FAFB;
+}
+
+.gh-tabela tbody tr.gh-linha-destaque {
+    background-color: #F0F7FF;
+    box-shadow: inset 4px 0 0 var(--gh-primaria);
+}
+
+.gh-tabela td {
+    padding: 18px 24px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--gh-texto-corpo);
+    vertical-align: middle;
+}
+
+.gh-nome-hospede {
+    font-weight: 600;
+    color: var(--gh-texto-titulo);
+}
+
+.gh-email-hospede {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--gh-texto-placeholder);
+    margin-top: 2px;
+}
+
+/* ---------- Badges de Situação (• Ativo / • Inativo) ---------- */
+.gh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+.gh-badge-ponto {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.gh-badge-ativo {
+    background: var(--gh-ativo-fundo);
+    color: var(--gh-ativo-texto);
+}
+
+.gh-badge-ativo .gh-badge-ponto {
+    background: var(--gh-ativo-texto);
+}
+
+.gh-badge-inativo {
+    background: var(--gh-inativo-fundo);
+    color: var(--gh-inativo-texto);
+}
+
+.gh-badge-inativo .gh-badge-ponto {
+    background: var(--gh-inativo-texto);
+}
+
+/* ---------- Botões de Ação da Tabela (Editar / Inativar) ---------- */
+.gh-acoes-grupo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.gh-btn-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gh-texto-corpo);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.gh-btn-acao:hover {
+    background: var(--gh-borda-suave);
+    color: var(--gh-texto-titulo);
+}
+
+.gh-btn-acao-inativar:hover {
+    background: var(--gh-erro-fundo);
+    color: var(--gh-erro);
+}
+
+.gh-btn-acao:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ---------- Estados (Loading, Empty State e 404 CPF Não Encontrado - CA-10) ---------- */
+.gh-estado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 48px 24px;
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.gh-estado-404 {
+    border-color: #93C5FD;
+    background: #F8FBFF;
+}
+
+.gh-estado-erro {
+    border-color: var(--gh-erro-borda);
+    background: var(--gh-erro-fundo);
+}
+
+.gh-estado-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #E8F0F6;
+    color: var(--gh-primaria);
+    margin-bottom: 4px;
+}
+
+.gh-estado-titulo {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gh-texto-titulo);
+}
+
+.gh-estado-texto {
+    font-size: 13px;
+    color: var(--gh-texto-corpo);
+    max-width: 420px;
+}
+
+.gh-btn-atalho-cadastro {
+    margin-top: 10px;
+}
+
+/* ---------- Alertas de Feedback (Topo e Modal) ---------- */
+.gh-alerta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.gh-alerta-sucesso {
+    background: var(--gh-sucesso-fundo);
+    border-color: var(--gh-sucesso-borda);
+    color: var(--gh-sucesso);
+}
+
+.gh-alerta-erro {
+    background: var(--gh-erro-fundo);
+    border-color: var(--gh-erro-borda);
+    color: var(--gh-erro);
+}
+
+.gh-alerta-info {
+    background: #F0F7FF;
+    border-color: #93C5FD;
+    color: var(--gh-primaria);
+}
+
+.gh-alerta-fechar {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+}
+
+/* ---------- Modal de Cadastro de Hóspede (PB-07 - Figma) ---------- */
+.gh-modal-dialog {
+    max-width: 448px;
+    width: 100%;
+}
+
+.gh-modal-content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    width: 100%;
+    max-width: 448px;
+    min-height: 454px;
+    background: #FFFFFF;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 12px;
+    box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.gh-modal-topo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 12px 0;
+    width: 100%;
+    min-height: 35.67px;
+}
+
+.gh-modal-titulo {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    color: #0F364E;
+    margin: 0;
+}
+
+.gh-modal-fechar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7.63px 4px 4.37px;
+    width: 19.67px;
+    height: 23.67px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #94A3B8;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.gh-modal-fechar:hover {
+    color: #475569;
+    background: #F1F5F9;
+}
+
+.gh-modal-subtitulo {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #64748B;
+    margin: 0;
+    width: 100%;
+}
+
+.gh-modal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 0 0 0;
+    gap: 16px;
+    width: 100%;
+}
+
+#gh-alerta-modal {
+    width: 100%;
+}
+
+#gh-alerta-modal:empty {
+    display: none;
+}
+
+#gh-alerta-modal .gh-alerta {
+    margin-bottom: 0;
+}
+
+.gh-campo-grupo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 6px;
+    width: 100%;
+    margin: 0;
+}
+
+.gh-label {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #334155;
+    margin: 0;
+}
+
+.gh-opcional {
+    text-transform: lowercase;
+    font-weight: 600;
+    color: #334155;
+}
+
+.gh-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 38px;
+    padding: 9px 12px 10px;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--gh-texto-titulo);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gh-input::placeholder {
+    color: #94A3B8;
+}
+
+.gh-input:focus {
+    outline: none;
+    border-color: var(--gh-primaria);
+    box-shadow: 0 0 0 3px rgba(15, 54, 78, 0.12);
+}
+
+.gh-input.gh-input-invalido {
+    border-color: var(--gh-erro);
+    background: #FFFBFB;
+}
+
+.gh-input.gh-input-invalido:focus {
+    box-shadow: 0 0 0 3px rgba(186, 26, 26, 0.14);
+}
+
+.gh-erro-campo {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--gh-erro);
+}
+
+.gh-erro-campo:empty {
+    display: none;
+}
+
+.gh-modal-footer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 16px 0 0 0;
+    gap: 12px;
+    width: 100%;
+    min-height: 55px;
+    border-top: 1px solid #F1F5F9;
+    margin-top: 0;
+}
+
+.gh-btn-cancelar-modal {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    min-width: 93.84px;
+    height: 38px;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #334155;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gh-btn-cancelar-modal:hover {
+    background: #F8FAFC;
+}
+
+.gh-btn-salvar-modal {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    min-width: 81.94px;
+    height: 36px;
+    background: #0F364E;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.gh-btn-salvar-modal:hover {
+    background: var(--gh-primaria-hover);
+}
+
+.gh-btn-cancelar-modal:disabled,
+.gh-btn-salvar-modal:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.gh-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gh-btn-primario {
+    background: var(--gh-primaria);
+    color: #FFFFFF;
+    border: 1px solid var(--gh-primaria);
+}
+
+.gh-btn-primario:hover {
+    background: var(--gh-primaria-hover);
+}
+
+.gh-btn-secundario {
+    background: #FFFFFF;
+    color: var(--gh-texto-corpo);
+    border: 1px solid var(--gh-borda);
+}
+
+.gh-btn-secundario:hover {
+    background: var(--gh-fundo-cabecalho-tabela);
+    color: var(--gh-texto-titulo);
+}
+
+.gh-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .gh-tabela th,
+    .gh-tabela td {
+        padding: 12px 16px;
+    }
+}

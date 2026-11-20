@@ -26,7 +26,73 @@ const rotas = {
     },
     'hospedes': {
         titulo: 'Hóspedes',
-        desenvolvido: false
+        desenvolvido: true,
+        caminhoArquivo: 'hospedes/pages/gestao-hospedes.html',
+        perfisPermitidos: ['Recepcionista', 'Dono'],
+        aoRenderizar: () => window.gestaoHospedes && window.gestaoHospedes.renderizar(),
+        templateFallback: `
+            <section class="area-conteudo" id="gestao-hospedes-view">
+                <header class="gh-cabecalho">
+                    <div class="gh-cabecalho-textos">
+                        <h2 class="gh-titulo">Hóspedes</h2>
+                        <p class="gh-subtitulo">Cadastro e histórico dos hóspedes do hotel</p>
+                    </div>
+                    <div class="gh-cabecalho-acoes">
+                        <button type="button" class="gh-btn-novo" id="btn-novo-hospede">
+                            <span class="gh-btn-novo-icone" id="gh-icone-novo" aria-hidden="true"></span>
+                            <span>Novo hóspede</span>
+                        </button>
+                    </div>
+                </header>
+                <div id="gh-feedback-topo"></div>
+                <form class="gh-busca-form" id="form-busca-hospede" role="search" novalidate>
+                    <div class="gh-busca-wrapper">
+                        <span class="gh-busca-icone" id="gh-icone-busca" aria-hidden="true"></span>
+                        <input type="search" id="input-busca-hospede" class="gh-busca-input" placeholder="Buscar por nome ou CPF..." autocomplete="off" aria-label="Buscar por nome ou CPF">
+                        <button type="button" id="btn-limpar-busca-hospede" class="gh-busca-limpar d-none" title="Limpar busca" aria-label="Limpar busca">&times;</button>
+                    </div>
+                </form>
+                <div id="gh-conteudo-tabela"></div>
+                <div class="modal fade" id="modal-cadastro-hospede" tabindex="-1" aria-labelledby="titulo-modal-cadastro-hospede" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered gh-modal-dialog">
+                        <div class="modal-content gh-modal-content">
+                            <div class="gh-modal-topo">
+                                <h3 class="modal-title gh-modal-titulo" id="titulo-modal-cadastro-hospede">Novo hóspede</h3>
+                                <button type="button" class="gh-modal-fechar" id="gh-btn-fechar-modal" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                            </div>
+                            <p class="gh-modal-subtitulo">Preencha os dados para registrar um novo hóspede.</p>
+                            <form id="form-cadastro-hospede" class="gh-modal-form" novalidate>
+                                <div id="gh-alerta-modal"></div>
+                                <div class="gh-campo-grupo">
+                                    <label for="input-nome-hospede" class="gh-label">NOME COMPLETO</label>
+                                    <input type="text" id="input-nome-hospede" name="nomeCompleto" class="gh-input" placeholder="Ex: Mariana Silva" maxlength="150" autocomplete="name" required>
+                                    <div class="gh-erro-campo" id="erro-nome-hospede"></div>
+                                </div>
+                                <div class="gh-campo-grupo">
+                                    <label for="input-cpf-hospede" class="gh-label">CPF</label>
+                                    <input type="text" id="input-cpf-hospede" name="cpf" class="gh-input" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" autocomplete="off" required>
+                                    <div class="gh-erro-campo" id="erro-cpf-hospede"></div>
+                                </div>
+                                <div class="gh-campo-grupo">
+                                    <label for="input-telefone-hospede" class="gh-label">TELEFONE</label>
+                                    <input type="tel" id="input-telefone-hospede" name="telefone" class="gh-input" placeholder="(00) 00000-0000" maxlength="15" inputmode="tel" autocomplete="tel" required>
+                                    <div class="gh-erro-campo" id="erro-telefone-hospede"></div>
+                                </div>
+                                <div class="gh-campo-grupo">
+                                    <label for="input-email-hospede" class="gh-label">EMAIL <span class="gh-opcional">(opcional)</span></label>
+                                    <input type="email" id="input-email-hospede" name="email" class="gh-input" placeholder="usuario@gmail.com" maxlength="150" autocomplete="email">
+                                    <div class="gh-erro-campo" id="erro-email-hospede"></div>
+                                </div>
+                                <div class="gh-modal-footer">
+                                    <button type="button" class="gh-btn-cancelar-modal" id="btn-cancelar-hospede" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="gh-btn-salvar-modal" id="btn-salvar-hospede">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `
     },
     'check-in': {
         titulo: 'Check-in',
