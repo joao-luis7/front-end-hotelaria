@@ -1,0 +1,592 @@
+/* Gestão de Hóspedes (PB-07 + PB-08) - classes prefixadas com gh- para isolamento modular */
+
+:root {
+    --gh-primaria: #0F364E;
+    --gh-primaria-hover: #0A2536;
+    --gh-texto-titulo: #191C1E;
+    --gh-texto-corpo: #42474D;
+    --gh-texto-placeholder: #72787D;
+    --gh-borda: #C2C7CD;
+    --gh-borda-suave: #ECEEF1;
+    --gh-fundo-cabecalho-tabela: #F2F4F7;
+
+    --gh-ativo-fundo: #A6D8FF;
+    --gh-ativo-texto: #0F364E;
+    --gh-inativo-fundo: #ECEEF1;
+    --gh-inativo-texto: #42474D;
+
+    --gh-erro: #BA1A1A;
+    --gh-erro-fundo: #FFF5F5;
+    --gh-erro-borda: #F5A3A3;
+
+    --gh-sucesso: #1B7F5F;
+    --gh-sucesso-fundo: #E6F5EF;
+    --gh-sucesso-borda: #4FD1A5;
+}
+
+/* Remove o fundo branco padrão da section do roteador para usar o layout do Figma */
+#gestao-hospedes-view {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+/* ---------- Cabeçalho da Página (Figma: 976px x 54px) ---------- */
+.gh-cabecalho {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 54px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.gh-cabecalho-textos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.gh-titulo {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.24px;
+    color: var(--gh-texto-titulo);
+}
+
+.gh-subtitulo {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--gh-texto-corpo);
+}
+
+.gh-btn-novo {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    gap: 8px;
+    min-width: 156.23px;
+    height: 40px;
+    background: var(--gh-primaria);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.gh-btn-novo:hover {
+    background: var(--gh-primaria-hover);
+}
+
+.gh-btn-novo-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 12px;
+}
+
+/* ---------- Campo de Busca Simples (Figma: 448px x 42px) ---------- */
+.gh-busca-form {
+    margin-bottom: 20px;
+}
+
+.gh-busca-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 448px;
+    height: 42px;
+    isolation: isolate;
+}
+
+.gh-busca-icone {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gh-busca-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 42px;
+    padding: 11px 38px 12px 40px;
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--gh-texto-titulo);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gh-busca-input::placeholder {
+    color: var(--gh-texto-placeholder);
+}
+
+.gh-busca-input:focus {
+    outline: none;
+    border-color: var(--gh-primaria);
+    box-shadow: 0 0 0 3px rgba(15, 54, 78, 0.12);
+}
+
+.gh-busca-limpar {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--gh-texto-placeholder);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gh-busca-limpar:hover {
+    color: var(--gh-texto-titulo);
+    background: var(--gh-borda-suave);
+}
+
+/* ---------- Tabela de Hóspedes ---------- */
+.gh-tabela-card {
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.gh-tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.gh-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+}
+
+.gh-tabela thead tr {
+    background: var(--gh-fundo-cabecalho-tabela);
+    border-bottom: 1px solid var(--gh-borda);
+}
+
+.gh-tabela th {
+    padding: 14px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gh-texto-corpo);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.gh-tabela th.gh-col-acoes,
+.gh-tabela td.gh-col-acoes {
+    text-align: right;
+}
+
+.gh-tabela tbody tr {
+    border-bottom: 1px solid var(--gh-borda-suave);
+    transition: background-color 0.12s ease;
+}
+
+.gh-tabela tbody tr:last-child {
+    border-bottom: none;
+}
+
+.gh-tabela tbody tr:hover {
+    background-color: #F9FAFB;
+}
+
+.gh-tabela tbody tr.gh-linha-destaque {
+    background-color: #F0F7FF;
+    box-shadow: inset 4px 0 0 var(--gh-primaria);
+}
+
+.gh-tabela td {
+    padding: 18px 24px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--gh-texto-corpo);
+    vertical-align: middle;
+}
+
+.gh-nome-hospede {
+    font-weight: 600;
+    color: var(--gh-texto-titulo);
+}
+
+.gh-email-hospede {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--gh-texto-placeholder);
+    margin-top: 2px;
+}
+
+/* ---------- Badges de Situação (• Ativo / • Inativo) ---------- */
+.gh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+.gh-badge-ponto {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.gh-badge-ativo {
+    background: var(--gh-ativo-fundo);
+    color: var(--gh-ativo-texto);
+}
+
+.gh-badge-ativo .gh-badge-ponto {
+    background: var(--gh-ativo-texto);
+}
+
+.gh-badge-inativo {
+    background: var(--gh-inativo-fundo);
+    color: var(--gh-inativo-texto);
+}
+
+.gh-badge-inativo .gh-badge-ponto {
+    background: var(--gh-inativo-texto);
+}
+
+/* ---------- Botões de Ação da Tabela (Editar / Inativar) ---------- */
+.gh-acoes-grupo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.gh-btn-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gh-texto-corpo);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.gh-btn-acao:hover {
+    background: var(--gh-borda-suave);
+    color: var(--gh-texto-titulo);
+}
+
+.gh-btn-acao-inativar:hover {
+    background: var(--gh-erro-fundo);
+    color: var(--gh-erro);
+}
+
+.gh-btn-acao:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ---------- Estados (Loading, Empty State e 404 CPF Não Encontrado - CA-10) ---------- */
+.gh-estado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 48px 24px;
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.gh-estado-404 {
+    border-color: #93C5FD;
+    background: #F8FBFF;
+}
+
+.gh-estado-erro {
+    border-color: var(--gh-erro-borda);
+    background: var(--gh-erro-fundo);
+}
+
+.gh-estado-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #E8F0F6;
+    color: var(--gh-primaria);
+    margin-bottom: 4px;
+}
+
+.gh-estado-titulo {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gh-texto-titulo);
+}
+
+.gh-estado-texto {
+    font-size: 13px;
+    color: var(--gh-texto-corpo);
+    max-width: 420px;
+}
+
+.gh-btn-atalho-cadastro {
+    margin-top: 10px;
+}
+
+/* ---------- Alertas de Feedback (Topo e Modal) ---------- */
+.gh-alerta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.gh-alerta-sucesso {
+    background: var(--gh-sucesso-fundo);
+    border-color: var(--gh-sucesso-borda);
+    color: var(--gh-sucesso);
+}
+
+.gh-alerta-erro {
+    background: var(--gh-erro-fundo);
+    border-color: var(--gh-erro-borda);
+    color: var(--gh-erro);
+}
+
+.gh-alerta-info {
+    background: #F0F7FF;
+    border-color: #93C5FD;
+    color: var(--gh-primaria);
+}
+
+.gh-alerta-fechar {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+}
+
+/* ---------- Modal de Cadastro de Hóspede (PB-07) ---------- */
+.gh-modal-content {
+    border: 1px solid var(--gh-borda);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(15, 54, 78, 0.16);
+}
+
+.gh-modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--gh-borda-suave);
+    align-items: flex-start;
+}
+
+.gh-modal-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gh-texto-titulo);
+    margin: 0;
+}
+
+.gh-modal-subtitulo {
+    font-size: 13px;
+    color: var(--gh-texto-corpo);
+    margin-top: 2px;
+}
+
+.gh-modal-body {
+    padding: 20px 24px;
+}
+
+.gh-modal-footer {
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--gh-borda-suave);
+    gap: 10px;
+}
+
+.gh-campo-grupo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.gh-campos-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.gh-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gh-texto-titulo);
+    margin-bottom: 6px;
+}
+
+.gh-obrigatorio {
+    color: var(--gh-erro);
+}
+
+.gh-opcional {
+    font-weight: 400;
+    color: var(--gh-texto-placeholder);
+}
+
+.gh-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    padding: 8px 12px;
+    background: #FFFFFF;
+    border: 1px solid var(--gh-borda);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--gh-texto-titulo);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gh-input::placeholder {
+    color: var(--gh-texto-placeholder);
+}
+
+.gh-input:focus {
+    outline: none;
+    border-color: var(--gh-primaria);
+    box-shadow: 0 0 0 3px rgba(15, 54, 78, 0.12);
+}
+
+.gh-input.gh-input-invalido {
+    border-color: var(--gh-erro);
+    background: #FFFBFB;
+}
+
+.gh-input.gh-input-invalido:focus {
+    box-shadow: 0 0 0 3px rgba(186, 26, 26, 0.14);
+}
+
+.gh-erro-campo {
+    min-height: 16px;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--gh-erro);
+}
+
+.gh-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gh-btn-primario {
+    background: var(--gh-primaria);
+    color: #FFFFFF;
+    border: 1px solid var(--gh-primaria);
+}
+
+.gh-btn-primario:hover {
+    background: var(--gh-primaria-hover);
+}
+
+.gh-btn-secundario {
+    background: #FFFFFF;
+    color: var(--gh-texto-corpo);
+    border: 1px solid var(--gh-borda);
+}
+
+.gh-btn-secundario:hover {
+    background: var(--gh-fundo-cabecalho-tabela);
+    color: var(--gh-texto-titulo);
+}
+
+.gh-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .gh-campos-linha {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .gh-tabela th,
+    .gh-tabela td {
+        padding: 12px 16px;
+    }
+}
